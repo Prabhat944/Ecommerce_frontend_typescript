@@ -1,34 +1,69 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import { Suspense, lazy, useEffect } from 'react'
+import toast, { Toaster } from "react-hot-toast";
 import './App.css'
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@reduxjs/toolkit/query';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './firebase';
+import { getUser } from './redux/api/userAPI';
+import { userExist, userNotExist } from './redux/reducer/userReducer';
+import Loader from './components/admin/loader';
+import Header from './components/admin/header';
+import ProtectedRoute from './components/admin/protected-route';
+
+const Home = lazy(()=>import("./pages/home"));
+const Search = lazy(()=>import("./pages/search"));
+const Cart = lazy(()=>import("./pages/cart"));
+const Login = lazy(()=>import("./pages/login"));
+const NotFound = lazy(()=>import("./pages/not-found"));
 
 function App() {
-  const [count, setCount] = useState(0)
+  const {user, loading} = useSelector((state:RootState)=>state.userReducer);
+  const dispatch = useDispatch();
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+  useEffect(()=>{
+    onAuthStateChanged(auth, async(user)=>{
+      try{
+      if(user){
+        const data = await getUser(user.uid);
+        console.log("tag",user,data)
+        dispatch(userExist(data.user));
+      }else dispatch(userNotExist());
+    }catch(err){
+        console.log("erro",err);
+        toast.error(err?.response?.data?.message || "something went wrong")
+        dispatch(userNotExist());
+      }
+    })
+  
+  },[]);
+
+  return loading ? (<Loader />) :(
+    <Router>
+      <Header user={user} />
+      <Suspense fallback={<Loader />}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/cart" element={<Cart />} />
+          {/* Not Logged in Route */}
+          <Route path="/login" element={
+          <ProtectedRoute isAuthenticated={user ? false : true}>
+            <Login/>
+          </ProtectedRoute>} />
+
+          {/* Logged in User Routes */}
+          <Route path="/login" element={
+          <ProtectedRoute isAuthenticated={user ? true : false}>
+           
+          </ProtectedRoute>} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
+      <Toaster position="bottom-center" />
+    </Router>
   )
 }
 

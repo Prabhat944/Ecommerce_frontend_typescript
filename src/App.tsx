@@ -17,6 +17,7 @@ const Home = lazy(()=>import("./pages/home"));
 const Search = lazy(()=>import("./pages/search"));
 const Cart = lazy(()=>import("./pages/cart"));
 const Login = lazy(()=>import("./pages/login"));
+const NewProduct = lazy(()=>import("./pages/admin/management/newProduct"));
 const NotFound = lazy(()=>import("./pages/not-found"));
 
 function App() {
@@ -55,10 +56,14 @@ function App() {
           </ProtectedRoute>} />
 
           {/* Logged in User Routes */}
-          <Route path="/login" element={
-          <ProtectedRoute isAuthenticated={user ? true : false}>
-           
-          </ProtectedRoute>} />
+          <Route element={<ProtectedRoute isAuthenticated={user ? true : false} />}>
+          </Route>
+
+          {/* Admin Routes */}
+          {/* <Route element={<ProtectedRoute isAuthenticated={user ? true : false} adminOnly={true} admin={user?.role === 'admin' ? true : false} />}> */}
+            <Route path="/admin/product/new" element={<NewProduct />} />
+          {/* </Route> */}
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

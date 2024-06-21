@@ -1,10 +1,9 @@
-import React from 'react'
 
 const Loader = () => {
   return (
-    <section 
-    >
-        <div>Loading...</div>
+    <section className='loader'>
+        <div></div>
+        <span>Loading...</span>
     </section>
   )
 }

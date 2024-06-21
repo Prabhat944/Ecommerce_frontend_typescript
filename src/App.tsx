@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import { Suspense, lazy, useEffect } from 'react'
 import toast, { Toaster } from "react-hot-toast";
@@ -18,8 +17,10 @@ const Search = lazy(()=>import("./pages/search"));
 const Cart = lazy(()=>import("./pages/cart"));
 const Login = lazy(()=>import("./pages/login"));
 const NewProduct = lazy(()=>import("./pages/admin/management/newProduct"));
-const NotFound = lazy(()=>import("./pages/not-found"));
-
+const Shipping = lazy(()=>import("./pages/not-found"));
+const NotFound = lazy(()=>import("./pages/shipping"));
+const Orders = lazy(()=>import("./pages/orders"));
+const OrderDetails = lazy(()=>import("./pages/order-details"));
 function App() {
   const {user, loading} = useSelector((state:RootState)=>state.userReducer);
   const dispatch = useDispatch();
@@ -57,6 +58,9 @@ function App() {
 
           {/* Logged in User Routes */}
           <Route element={<ProtectedRoute isAuthenticated={user ? true : false} />}>
+            <Route path='/shipping' element={<Shipping />} />
+            <Route path='/orders' element={<Orders />} />
+            <Route path='/order/:id' element={<OrderDetails />} />
           </Route>
 
           {/* Admin Routes */}

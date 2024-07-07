@@ -1,17 +1,15 @@
-:root{
-    font-family: Inter, system-ui, Avenir, Arial, Helvetica, sans-serif;
-    line-height: 1.5;
-    font-weight: 400;
-}
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing: border-box;
-}
-
 body{
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, Arial, Helvetica, sans-serif;
+    line-height: 1.5;
     user-select: none;
+    margin-top:65px;
+    box-sizing:content-box;
+    &::-webkit-scrollbar{
+        display: none;
+    }
+    
 }
 
 a{
@@ -22,6 +20,11 @@ a{
 $color1: white;
 $color2: rgb(46,46,46);
 $color3:rgb(0,104,136);
+$color4:rgb(200, 199, 199);
+$color5:rgb(231, 231, 231);
+$color6:rgb(255, 50, 98);
+$color7:rgba(237, 237, 237, 0.612);
+;
 
 .red{
     color:red;
@@ -38,12 +41,18 @@ $color3:rgb(0,104,136);
 @import "home";
 @import "cart";
 @import "search";
+@import "shipping";
+@import "admin-styles/dashboard";
+@import "admin-styles/products";
+@import "admin-styles/dashboardapp";
+@import "admin-styles/mediaquery";
+@import "admin-styles/chart";
 
 .container{
     max-width: 1367px;
     width:100%;
     margin: auto;
-    overflow: auto;
+    
     > h1{
       @include heading;
       margin:1rem 0;
@@ -58,24 +67,65 @@ $color3:rgb(0,104,136);
 }
 
 .header{
-    @include flex(row,flex-end,streach,1.2rem);
-    padding:1rem;
+    @include flex(row,space-between,stretch,1.2rem);
+    padding: 1rem 0;
+    .businessLogo{
+        flex:1;
+        padding: 0 2rem;
+        @include flex(row, flex-start);
+        >img{
+            height: 2rem;
+            object-fit: contain;
+        }
+    }
+    .navLinkContainer{
+        padding: 0 2rem;
+        font-size: 1rem;
+        font-weight: 500;
+        line-height: 19.36px;
+        text-align: left;
+        letter-spacing: 0.09rem;
+        @include flex(row,space-between,center,1.5rem);
+    }
     a{
-        color:$color2;
-        letter-spacing: 2px;
-        font-size: 1.2rem;
+        @include flex(row,center,center,0);
+        color:$color4;
+        transition: all 0.5s ease-out;
+        padding: 0.2rem;
+        img{
+            width: 1.8rem;
+            height: 1.8rem;
+            &:hover{
+                background-color: $color4;
+                border-radius: 50%;
+            }
+        };
+        span{
+            @include flex(row,center,center,0.5rem);
+
+            background-color: $color5;
+            color: $color2;
+            border-radius: 1rem;
+            padding: 0.3rem 1rem;
+            &:hover{
+                background-color: $color2;
+                color: $color5;
+            }
+        }
 
         &:hover{
-            color: $color3;
+            color: $color2;
         }
     }
     button{
         border:none;
-        font-size: 1.2rem;
+        font-size: 1.5rem;
         cursor: pointer;
         background-color: transparent;
+        color:$color4;
+        @include flex(row,center,center,0);
         &:hover{
-            color:$color3;
+            color:$color2;
         }
     }
 
@@ -86,13 +136,46 @@ $color3:rgb(0,104,136);
         width:100px;
         position: absolute;
         left:calc(100% - 100px);
-        top:8%;
+        top:40px;
         > div{
             @include flex(column,flex-start,center,0.25rem)
         }
     }
+    box-shadow: 0px 0px 10px 1px $color2;
+    position: fixed;
+    top:0;
+    left:0;
+    width: 100%;
+    z-index: 9999;
+    background-color: $color1;
 }
 
+.footer{
+    @include flex(row,space-between,center,1rem);
+    background-color: $color2;
+    padding:10rem;
+    p{
+        color:$color1;
+        margin: 0;
+    }
+    .businessLogo{
+        @include flex(column,flex-start,flex-start, 0.5rem);
+    }
+    .navLinkContainer{
+        flex:0.5;
+        @include flex(column,flex-start,flex-start, 1rem);
+        color:$color1;
+        a{
+            color:$color1;
+        }
+        .social-links{
+            @include flex(row,center,center, 2rem);
+        }
+    }
+    button{
+        cursor: pointer;
+    }
+}
 .not-found{
     height:80vh;
     @include flex(column);

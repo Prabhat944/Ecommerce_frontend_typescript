@@ -1,10 +1,19 @@
 .cart{
     padding: 2rem 4rem;
-    @include flex(row, unset, unset, 4rem);
+    @include flex(column, flex-start, unset, 4rem);
     height: calc(100vh - 4rem);
-
+    >div{
+    @include flex(row, unset, unset, 4rem);
     >main{
+        border-right: 1px solid $color4;
+        border-radius: 0.2rem;
+        padding:2rem;
         width: 70%;
+        min-height: 40vh;
+        overflow-x:hidden;
+        height:100%;
+        overflow-y: auto;
+        max-height: 80vh;
         >h1{
             @include heading(2px);
             text-align: center;
@@ -27,9 +36,12 @@
         }
         >p{
             font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            
         }
         >a{
-            background-color: $color3;
+            background-color: $color2;
             padding: 1rem;
             text-decoration: none;
             color: $color1;
@@ -51,10 +63,17 @@
             }
         }
     }
+    }
+    
 }
 
 .cart-item{
     padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 0.3rem;
+    -webkit-box-shadow: 0px 2px 3px 0px $color4;
+    -moz-box-shadow: 0px 2px 3px 0px $color4;
+    box-shadow: 0px 2px 3px 0px $color4;
     @include flex(row,flex-start,center,3rem);
     >img{
         @include square(10rem);
@@ -64,19 +83,18 @@
         @include flex(column, center, flex-start, 0.25rem);
         a{
             font-size: 1.2rem;
+            font-weight: 500;
             color:$color2;
             &:hover{
                 color: $color3;
             }
-        }
-        span{
-            font-weight: 700;
         }
     }
 
     >div{
         margin-left: auto;
         @include flex;
+        
         button{
             border:none;
             @include square(2rem);
@@ -89,6 +107,9 @@
                 color: $color1;
             };
         }
+    }
+    span{
+        font-weight: 700;
     }
     >button{
         border:none;

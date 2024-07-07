@@ -1,12 +1,23 @@
-import { useState } from 'react'
-import ProductCard from '../components/admin/product-card'
+import { useMemo, useState } from 'react'
+import ProductCard from '../components/product-card'
 import { useCategoriesQuery, useSearchProductsQuery } from '../redux/api/productAPI'
 import { useDispatch } from 'react-redux';
 import { CartItem } from '../types/types';
 import toast from 'react-hot-toast';
 import { addToCart } from '../redux/reducer/cartReducer';
 import { CustomError } from '../types/api-types';
-import { Skeleton } from '../components/admin/loader';
+import { Skeleton } from '../components/loader';
+import SelectDropdown from '../utils/SelectDropdown';
+
+const orderOptions = [
+  { value: '', label: 'None' },
+  { value: 'asc', label: 'Price (Low to High)' },
+  { value: 'dsc', label: 'Price (High to Low)' },
+];
+
+
+
+
 
 const Search = () => {
   const [search,setSearch] = useState("");
@@ -19,6 +30,15 @@ const Search = () => {
   const {data:searchedData,isLoading:productLoading,isError:productIsError,error:productError} = useSearchProductsQuery({
     search,sort,category,page,price:maxPrice
   });
+
+  const categoryList = useMemo(()=>{
+    const list = [{ value:'', label: "All" }]
+    if(!categoriesResponse?.categories) return list;
+    categoriesResponse?.categories?.map((item)=>{
+      list.push({ value:item, label: item.toUpperCase() })
+    } );
+    return list;
+  },[categoriesResponse]);
 
   const addToCartHandler = (cartItem:CartItem) => {
     if(cartItem.stock < 1) return toast.error("Out of stock");
@@ -39,20 +59,10 @@ const Search = () => {
     toast.error(err.data.message);
   }
 
-
-
   return (
     <div className='product-search-page'>
       <aside>
         <h2>Filters</h2>
-        <div>
-          <h4>Sort</h4>
-          <select value={sort} onChange={e=>setSort(e.target.value)}>
-            <option value="">None</option>
-            <option value="asc">Price (Low to High)</option>
-            <option value="dsc">Price (High to Low)</option>
-          </select>
-        </div>
         <div>
           <h4>Max Price: {maxPrice || ""}</h4>
           <input 
@@ -61,16 +71,24 @@ const Search = () => {
             max={100000}
             value={maxPrice}
             onChange={(e)=>setMaxPrice(Number(e.target.value))} 
+            style={{background :`linear-gradient(to right, rgba(46,46,46,0.8) ${(maxPrice/100000)*100}%, rgb(200, 199, 199) ${(maxPrice/100000)*100}%)`}}
             />
         </div>
         <div>
+          <h4>Sort</h4>
+          <SelectDropdown
+            sort={sort}
+            setSort={setSort}
+            optionList={orderOptions}
+          />
+        </div>
+        <div>
           <h4>Category</h4>
-          <select value={category} onChange={e=>setCategory(e.target.value)}>
-            <option value="">All</option>
-            {!loadingCategories && categoriesResponse?.categories?.map((item)=>(
-              <option key={item} value={item}>{item.toUpperCase()}</option>
-            ))}
-          </select>
+          <SelectDropdown
+            sort={category}
+            setSort={setCategory}
+            optionList={!loadingCategories ? categoryList : []}
+          />
         </div>
       </aside>
       <main>

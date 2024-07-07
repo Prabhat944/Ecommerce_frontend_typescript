@@ -1,6 +1,6 @@
-import { server } from '../../redux/store'
+import { server } from '../redux/store'
 import { Link } from 'react-router-dom'
-import { CartItem } from '../../types/types';
+import { CartItem } from '../types/types';
 import { FaTrash } from 'react-icons/fa';
 
 type CartItemProps = {
@@ -21,7 +21,6 @@ const CartItemCard = ({
       <img src={`${server}/${photo}`} alt={name} />
       <article>
         <Link to={`/product/${productId}`}>{name}</Link>
-        <span>{price}</span>
       </article>
 
       <div>
@@ -29,6 +28,7 @@ const CartItemCard = ({
         <p>{quantity}</p>
         <button onClick={()=>incrementHandler(cartItem)}>+</button>
       </div>
+      <span>{`₹${quantity*price}`}</span>
       <button onClick={()=>removeHandler(productId)}><FaTrash /></button>
     </div>
   )

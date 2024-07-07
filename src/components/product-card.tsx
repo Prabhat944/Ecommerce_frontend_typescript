@@ -1,7 +1,8 @@
 
-import { CartItem } from '../../types/types';
-import { FaPlus } from 'react-icons/fa';
-import { server } from '../../redux/store';
+import { CartItem } from '../types/types';
+import { FaHeart, FaPlus } from 'react-icons/fa';
+import { server } from '../redux/store';
+import Button from '../utils/Button';
 
 type ProductsProps = {
     productId:string;
@@ -22,14 +23,15 @@ const ProductCard = ({
 }:ProductsProps) => {
   return (
     <div className='product-card'>
+      <div className='product-card-top'>
+        <FaHeart />
+      </div>
       <img src={`${server}/${photo}`} alt={name} />
       <p>{name}</p>
       <span>₹{price}</span>
 
       <div>
-        <button onClick={()=>handler({productId, price, name, photo, stock, quantity:1})}>
-            <FaPlus />
-        </button>
+        <Button onClick={()=>handler({productId, price, name, photo, stock, quantity:1})} text={"Add to cart"} />
       </div>
     </div>
   )

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import { Skeleton } from '../components/admin/loader'
-import ProductCard from '../components/admin/product-card'
+import { Skeleton } from '../components/loader'
+import ProductCard from '../components/product-card'
 import { CartItem } from '../types/types';
 import { useDispatch } from 'react-redux';
 import { useLatestProductsQuery } from '../redux/api/productAPI';
@@ -21,8 +21,32 @@ const Home = () => {
   return (
     <div className='home'>
       <section></section>
+      <div className='category-based-container'>
       <h1>
-        Latest Products
+         New Arrival
+        <Link to='/search' className='findmore'>
+            More
+        </Link>
+      </h1>
+      <main>
+      {isLoading 
+      ? <Skeleton width="80vw" /> 
+      : data?.products?.map((item)=>(
+            <ProductCard
+               key={item?._id}
+               productId={item?._id}
+               name={item?.name}
+               price={item?.price}
+               stock={item?.stock}
+               handler={addToCartHandler}
+               photo={item?.photo}
+             />
+        ))}
+      </main>
+      </div>
+      <div className='category-based-container'>
+      <h1>
+          Bestseller
         <Link to='/search' className='findmore'>
             More
         </Link>
@@ -60,6 +84,7 @@ const Home = () => {
              />
         ))} */}
       </main>
+      </div>
     </div>
   )
 }

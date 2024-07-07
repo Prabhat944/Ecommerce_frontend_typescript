@@ -3,15 +3,15 @@ import { useState } from 'react'
 import toast from 'react-hot-toast';
 import { FaSearch, FaShoppingBag, FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { auth } from '../../firebase';
-import { User } from '../../types/types';
+import { auth } from '../firebase';
+import { User } from '../types/types';
 
 interface PropsType{
     user:User | null;
 }
 const Header = ({user}:PropsType) => {
     const [isOpen,setIsOpen] = useState(false);
-console.log(user)
+    
     const logoutHandler = async() => {
         try{
             await signOut(auth);
@@ -23,14 +23,29 @@ console.log(user)
     };
   return (
     <nav className='header'>
+        <div className='businessLogo'>
+            <img src={"/Logo/LogoDark.svg"} alt="" />
+        </div>
+        <div className='navLinkContainer'>
         <Link onClick={()=>setIsOpen(false)} to={"/"}>
             Home
         </Link>
+        <Link onClick={()=>setIsOpen(false)} to={"/about"}>
+            About
+        </Link>
+        <Link onClick={()=>setIsOpen(false)} to={"/Contact"}>
+            Contact Us
+        </Link>
         <Link onClick={()=>setIsOpen(false)} to={"/search"}>
-            <FaSearch />
+        <span>
+            Search... <FaSearch />
+        </span>
+        </Link>
+        <Link onClick={()=>setIsOpen(false)} to={"/favourite"}>
+           <img src={"/32px/Favorites.svg"} alt="" />
         </Link>
         <Link onClick={()=>setIsOpen(false)} to={"/cart"}>
-            <FaShoppingBag />
+           <img src={"/32px/Cart1.svg"} alt="" />
         </Link>
 
         {user?._id ? <>
@@ -58,6 +73,7 @@ console.log(user)
                 <FaSignInAlt />
             </Link>
         )}
+        </div>
     </nav>
   )
 }

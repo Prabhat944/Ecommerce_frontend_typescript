@@ -28,3 +28,7 @@ export default {
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- 
+- 
+- Figma link 
+ https://www.figma.com/design/BL6Bpej65OJWnoVG7ohsv6/E-Store---Mobile%2Fweb-(Community)?node-id=156-1293&t=3EnDy57J6tsuDVGF-0

@@ -11,10 +11,10 @@ const AdminSidebar = () => {
     const location = useLocation();
 
     const [showModal,setShowModal] = useState<boolean>(false);
-    const [phoneActive,setPhoneActive] = useState<boolean>(window.innerWidth < 1100);
+    const [phoneActive,setPhoneActive] = useState<boolean>(window.innerWidth < 768);
 
     const resizeHandler = () => {
-        setPhoneActive(window.innerWidth < 1100);
+        setPhoneActive(window.innerWidth < 768);
     };
 
     useEffect(()=>{
@@ -35,7 +35,7 @@ const AdminSidebar = () => {
     <aside
      style={
         phoneActive ? {
-            width:"20rem",
+            width:"12rem",
             height:"100vh",
             position:"fixed",
             top:0,
@@ -44,7 +44,7 @@ const AdminSidebar = () => {
         } : {}
      }
     >
-        <h2>Logo.</h2>
+        <h2>Admin Dashboard</h2>
         <DivOne location={location} />
         <DivTwo location={location} />
         <DivThree location={location} />
@@ -62,7 +62,7 @@ const AdminSidebar = () => {
 const DivOne = ({location}:{location:Location})=> (
     <div>
         <h5>Dashboard</h5>
-        <ul>
+        <div className='status-check-container'>
             <Li 
                url="/admin/dashboard"
                text="Dashboard"
@@ -82,19 +82,19 @@ const DivOne = ({location}:{location:Location})=> (
                location={location}
             />
             <Li 
-               url="/admin/dashboard"
+               url="/admin/transaction"
                text="Transaction"
                Icon={AiFillFileText}
                location={location}
             />
-        </ul>
+        </div>
     </div>
 ) 
 
 const DivTwo = ({location}:{location:Location}) => (
     <div>
         <h5>Charts</h5>
-        <ul>
+        <div className='status-check-container'>
             <Li 
                url="/admin/chart/bar"
                text="Bar"
@@ -113,13 +113,13 @@ const DivTwo = ({location}:{location:Location}) => (
                Icon={FaChartLine}
                location={location}
             />
-        </ul>
+        </div>
     </div>
 )
 const DivThree = ({location}:{location:Location}) => (
     <div>
         <h5>App</h5>
-        <ul>
+        <div className='status-check-container'>
             <Li 
                url="/admin/add/stopwatch"
                text="Stopwatch"
@@ -138,7 +138,7 @@ const DivThree = ({location}:{location:Location}) => (
                Icon={FaGamepad}
                location={location}
             />
-        </ul>
+        </div>
     </div>
 )
 
@@ -149,9 +149,12 @@ interface LiProps{
     Icon:IconType;
 }
 
-const Li = ({url,text,location,Icon}:LiProps) => (<li>
+const Li = ({url,text,location,Icon}:LiProps) => (
     <Link to={url} style={{
-        background:location.pathname.includes(url) ? "rgba(0,115,255,0.1)": "white"
-    }}><Icon />{text}</Link>
-</li>)
+        background:location.pathname.includes(url) ? "rgba(0,0,0,0.1)": "white",
+        padding:"0.3rem 0.7rem"
+    }}>
+        <div className="status-check"><Icon/>{text}</div>
+        </Link>
+)
 export default AdminSidebar

@@ -4,10 +4,24 @@
     min-height: calc(100vh - 6.5vh);
 
     aside{
-        min-width: 20rem;
+        min-width: 10rem;
+        width:12rem;
+        background-color: $color1;
         box-shadow: 2px 5px 10px rgba(0,0,0,0.247);
         padding:2rem;
         @include flex(column, flex-start, stretch, 0.5rem);
+        div{
+            @include flex(column,center,flex-start,0);
+        }
+        .status-check-container{
+            a{
+                text-decoration: none;
+            }
+            @include flex(column,center,flex-start,0);
+            .status-check{
+                @include flex(row, flex-start, center, 1rem);
+            }
+        }
     }
     
 .dashboard{

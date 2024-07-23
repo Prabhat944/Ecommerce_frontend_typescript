@@ -22,11 +22,29 @@
     .product-management {
       padding: 2rem;
     }
+    .footer{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      background-color: rgb(46, 46, 46);
+      padding: 10rem;
+    }
+    .menu-list{
+      display: none;
+    }
   }
   
   @media screen and (width<= 1100px) {
     .admin-container {
       grid-template-columns: 1fr !important;
+    }
+    .menu-list{
+      display: none;
+    }
+    .header{
+      width:100%;
     }
   }
   
@@ -73,6 +91,40 @@
         border: 1px solid rgba(212, 212, 212, 0.379);
       }
     }
+    .category{
+      padding-left:0 !important;
+    }
+    .menu-list{
+      display: flex;
+      font-size: 2rem;
+      padding-right: 2rem;
+    }
+    .navLinkContainer{
+      display:none;
+      position: absolute !important;
+      flex-direction: column !important;
+      background-color: $color1;
+      top:64px;
+      right:8PX;
+      gap:1rem !important;
+      box-shadow: 0 0 2px 3px $color4;
+      border-radius: 0.5rem;
+      transition: all 0.3s ease-in-out;
+      opacity:0;
+    }
+    .navLinkContainerActive{
+      opacity:1 !important;
+      display:flex;
+      dialog{
+        bottom: -100px;
+        top: unset !important;
+      }
+    }
+    .hamburger{
+      width: 100%;
+      height: 20px !important;
+      font-size: 10px !important;
+    }
   }
   
   @media screen and (width<= 600px) {
@@ -104,6 +156,14 @@
       }
       .stopwatch {
         align-items: center;
+      }
+    }
+    .footer{
+      flex-direction: column !important;
+      padding: 5rem 0 !important;
+      background-color: red;
+      .businessLogo{
+        align-items: center !important;
       }
     }
   }

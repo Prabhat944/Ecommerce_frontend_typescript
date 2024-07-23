@@ -48,7 +48,7 @@ function App() {
       }else dispatch(userNotExist());
     }catch(err){
         console.log("erro",err);
-        toast.error(err?.response?.data?.message || "something went wrong")
+        toast.error("something went wrong")
         dispatch(userNotExist());
       }
     })

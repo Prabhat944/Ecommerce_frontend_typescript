@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Select, { StylesConfig } from 'react-select';
+import Select, { ActionMeta, StylesConfig } from 'react-select';
 import chroma from "chroma-js";
 
 const dot = (color = 'transparent') => ({
@@ -60,7 +60,7 @@ const dot = (color = 'transparent') => ({
 
   interface SelectDropdownProps {
     optionList: { value: string; label: string }[];
-    setSort: (sort: string) => void;
+    setSort: (sort: string) => {};
     sort: string;
   }
 
@@ -68,9 +68,11 @@ const dot = (color = 'transparent') => ({
 const SelectDropdown:React.FC<SelectDropdownProps> = ({optionList=[{value: "",label: ""}],setSort,sort}) => {
     const [selectedValue, setSelectedValue] = useState<{ value: string; label: string }>({ value: '', label: '' });
 
-    const setValueHandler = (item: { value: string; label: string }) => {
-        setSort(item.value || '');
-        setSelectedValue(item);
+    const setValueHandler = (newValue: any, actionMeta: ActionMeta<any>) => {
+      const { value, label } = newValue;
+        setSort(value || '');
+        setSelectedValue({ value, label });
+        console.log(actionMeta);
     };
 
     useEffect(() => {

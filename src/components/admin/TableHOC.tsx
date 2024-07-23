@@ -1,23 +1,23 @@
-import {AiOutlineSortAscending,AiOutlineSortDescending} from "react-icons/ai";
-import {Column,usePagination,useSortBy,useTable,TableOptions} from "react-table";
+import { AiOutlineSortAscending, AiOutlineSortDescending } from "react-icons/ai";
+import { Column, usePagination, useSortBy, useTable, TableOptions, TableInstance } from "react-table";
 
-
-function TableHOC<T extends Object>(
-    columns:Column<T>[],
-    data:T[],
-    containerClassname:string,
-    heading:string,
-    showPagination:boolean=false
-){
-    return function HOC(){
-        const options:TableOptions<T> = {
+function TableHOC<T extends object>(
+    columns: Column<T>[],
+    data: T[],
+    containerClassname: string,
+    heading: string,
+    showPagination: boolean = false
+) {
+    return function HOC() {
+        const options: TableOptions<T> = {
             columns,
             data,
-            initialState:{
-                pageSize:6,
+            initialState: {
+                pageSize: 6,
             }
-        }
+        };
 
+        //@ts-ignore
         const {
             getTableProps,
             getTableBodyProps,
@@ -26,20 +26,20 @@ function TableHOC<T extends Object>(
             prepareRow,
             nextPage,
             pageCount,
-            state:{pageIndex},
+            state: { pageIndex },
             previousPage,
             canNextPage,
             canPreviousPage
-        } = useTable(options, useSortBy,usePagination);
+        } = useTable(options, useSortBy, usePagination) as TableInstance<T>;
 
         return (
             <div className={containerClassname}>
                 <h2 className="heading">{heading}</h2>
                 <table className="table" {...getTableProps()}>
                     <thead>
-                        {headerGroups.map((headerGroup)=>(
+                        {headerGroups.map((headerGroup) => (
                             <tr {...headerGroup.getHeaderGroupProps()}>
-                                {headerGroup.headers.map((column)=>(
+                                {headerGroup.headers.map((column) => (
                                     <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                                         {column.render("Header")}
                                         {column.isSorted && (
@@ -58,12 +58,11 @@ function TableHOC<T extends Object>(
                         ))}
                     </thead>
                     <tbody {...getTableBodyProps()}>
-                        {page.map((row)=>{
+                        {page.map((row) => {
                             prepareRow(row);
-
                             return (
                                 <tr {...row.getRowProps()}>
-                                    {row.cells.map((cell)=>(
+                                    {row.cells.map((cell) => (
                                         <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
                                     ))}
                                 </tr>
@@ -80,9 +79,8 @@ function TableHOC<T extends Object>(
                     </div>
                 )}
             </div>
-        )
-    }
+        );
+    };
 }
 
 export default TableHOC;
-
